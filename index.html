@@ -1,175 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Bengaluru Beats</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BENGALURU BEATS</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        blackPure: "#0b0b0b",
+        redPrime: "#c4161c",
+        yellowPrime: "#f5c400"
+      }
+    }
+  }
+}
+</script>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #000;
-  color: #fff;
+body { background:#0b0b0b; }
+.collection-card {
+  background: linear-gradient(145deg, #111, #050505);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  transition: 0.35s ease;
 }
-
-header {
-  padding: 20px;
-  text-align: center;
-  font-size: 22px;
-  font-weight: bold;
-  color: #ffcc00;
+.collection-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 60px rgba(196,22,28,0.4);
 }
-
-h2 {
-  text-align: center;
-  margin-top: 10px;
-  color: #fff;
-}
-
-.beats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
-
-.card {
-  background: #111;
-  border-radius: 12px;
-  padding: 15px;
-}
-
-.card img {
-  width: 100%;
-  border-radius: 10px;
-}
-
-.title {
-  margin: 10px 0 5px;
-  font-weight: bold;
-}
-
-.player {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.play {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  background: #ff0000;
-  color: #fff;
-  font-size: 16px;
-}
-
-.bar {
-  flex: 1;
-  height: 6px;
-  background: #333;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-.fill {
-  height: 100%;
-  width: 0%;
-  background: #ffcc00;
-  border-radius: 3px;
-}
-
-.time {
-  font-size: 12px;
-}
-
-/* FAQ */
-.faq {
-  padding: 20px;
-}
-.faq h3 {
-  text-align: center;
-}
-.faq p {
-  color: #aaa;
-  font-size: 14px;
-}
-
-/* WhatsApp Button */
-.whatsapp {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #25d366;
-  color: #fff;
-  padding: 14px 18px;
-  border-radius: 30px;
-  text-decoration: none;
-  font-weight: bold;
+.beat-card {
+  background:#111;
+  border-radius:18px;
 }
 </style>
 </head>
 
-<body>
+<body class="text-white">
 
-<header>BENGALURU BEATS</header>
-<h2>SELECT MOOD / GENRE</h2>
+<!-- HEADER -->
+<header class="px-8 py-6">
+  <h1 class="text-2xl font-bold">
+    BENGALURU <span class="text-redPrime">BEATS</span>
+  </h1>
+</header>
 
-<section class="beats">
+<!-- LANDING -->
+<section id="landing" class="px-8 min-h-screen flex flex-col justify-center">
+  <h2 class="text-5xl md:text-6xl font-extrabold">
+    SELECT <span class="text-redPrime">MOOD / GENRE</span>
+  </h2>
 
-<!-- BEAT 21 -->
-<div class="card">
-  <img src="images/21.png" loading="lazy">
-  <div class="title">21</div>
+  <p class="text-gray-400 mt-4 max-w-xl">
+    Drill • Trap • Hip Hop • Old School • Experimental
+  </p>
 
-  <div class="player">
-    <button class="play">▶</button>
-    <div class="bar"><div class="fill"></div></div>
-    <div class="time">0:00</div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-20 max-w-6xl">
+    <div onclick="openCollection('drill')" class="collection-card p-10 rounded-2xl cursor-pointer">
+      <h3 class="text-3xl font-bold text-redPrime">DRILL</h3>
+    </div>
+
+    <div onclick="openCollection('trap')" class="collection-card p-10 rounded-2xl cursor-pointer">
+      <h3 class="text-3xl font-bold text-yellowPrime">TRAP</h3>
+    </div>
+
+    <div onclick="openCollection('hiphop')" class="collection-card p-10 rounded-2xl cursor-pointer">
+      <h3 class="text-3xl font-bold">HIP HOP</h3>
+    </div>
+
+    <div onclick="openCollection('oldschool')" class="collection-card p-10 rounded-2xl cursor-pointer">
+      <h3 class="text-3xl font-bold text-yellowPrime">OLD SCHOOL</h3>
+    </div>
+
+    <div onclick="openCollection('experimental')" class="collection-card p-10 rounded-2xl cursor-pointer">
+      <h3 class="text-3xl font-bold text-redPrime">EXPERIMENTAL</h3>
+    </div>
   </div>
+</section>
 
-  <audio src="beats/21.mp3" preload="none"></audio>
+<!-- COLLECTION PAGE -->
+<section id="collectionPage" class="hidden px-8 py-20">
+  <button onclick="goBack()" class="mb-10 text-gray-400 hover:text-white">← Back</button>
+  <h2 id="collectionTitle" class="text-4xl font-bold mb-14"></h2>
+  <div id="beatsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
+</section>
+
+<!-- PLAYER -->
+<div id="player" class="fixed bottom-0 left-0 right-0 bg-black border-t border-gray-800 hidden">
+  <div class="px-6 py-4 flex justify-between items-center">
+    <div>
+      <div id="nowTitle" class="font-bold"></div>
+      <div id="nowDesc" class="text-gray-400 text-sm"></div>
+    </div>
+    <audio id="audio" preload="none" controls class="w-1/2"></audio>
+  </div>
 </div>
 
-</section>
-
-<section class="faq">
-  <h3>FAQ</h3>
-  <p>• License details coming soon</p>
-  <p>• Usage rights explained here</p>
-</section>
-
-<a class="whatsapp" 
-href="https://wa.me/91XXXXXXXXXX?text=I%20want%20to%20buy%20the%20beat%2021">
-WhatsApp
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/91XXXXXXXXXX" target="_blank"
+   class="fixed bottom-6 right-6 bg-green-500 text-white px-5 py-3 rounded-full font-bold shadow-lg">
+  WhatsApp
 </a>
 
+<!-- FAQ -->
+<section class="px-8 py-20 border-t border-gray-800">
+  <h3 class="text-3xl font-bold mb-8">FAQ</h3>
+  <div class="space-y-4 text-gray-400">
+    <p>• What do I receive after purchase?</p>
+    <p>• Can I use beats for YouTube & Spotify?</p>
+    <p>• Is this exclusive or non-exclusive?</p>
+  </div>
+</section>
+
 <script>
-document.querySelectorAll(".card").forEach(card => {
-  const audio = card.querySelector("audio");
-  const play = card.querySelector(".play");
-  const bar = card.querySelector(".bar");
-  const fill = card.querySelector(".fill");
-  const time = card.querySelector(".time");
+/* ===== EDIT ONLY THIS TO ADD BEATS ===== */
+const beats = [
+  {
+    title: "21",
+    collection: "drill",
+    price: "₹499",
+    description: "Drill type beat • 140 BPM",
+    audio: "beats/21.mp3",
+    image: "images/21.jpg"
+  }
+];
+/* ===================================== */
 
-  play.onclick = () => {
-    document.querySelectorAll("audio").forEach(a => a.pause());
-    audio.paused ? audio.play() : audio.pause();
-  };
+let currentCollection = "";
 
-  audio.ontimeupdate = () => {
-    const p = (audio.currentTime / audio.duration) * 100;
-    fill.style.width = p + "%";
-    time.textContent = Math.floor(audio.currentTime) + "s";
-  };
+function openCollection(type){
+  currentCollection = type;
+  landing.classList.add("hidden");
+  collectionPage.classList.remove("hidden");
 
-  bar.onclick = e => {
-    const percent = e.offsetX / bar.offsetWidth;
-    audio.currentTime = percent * audio.duration;
+  const titles={
+    drill:"Drill Beats",
+    trap:"Trap Beats",
+    hiphop:"Hip Hop Beats",
+    oldschool:"Old School Beats",
+    experimental:"Experimental Beats"
   };
-});
+  collectionTitle.innerText=titles[type];
+  renderBeats();
+}
+
+function goBack(){
+  collectionPage.classList.add("hidden");
+  landing.classList.remove("hidden");
+  player.classList.add("hidden");
+}
+
+function renderBeats(){
+  beatsGrid.innerHTML="";
+  beats.filter(b=>b.collection===currentCollection).forEach(b=>{
+    beatsGrid.innerHTML+=`
+      <div class="beat-card p-6">
+        <img src="${b.image}" loading="lazy" class="rounded-xl mb-4">
+        <h3 class="text-xl font-bold">${b.title}</h3>
+        <p class="text-gray-400 text-sm mt-2">${b.description}</p>
+
+        <div class="mt-4 flex justify-between items-center">
+          <span class="text-yellowPrime font-bold">${b.price}</span>
+          <button onclick="playBeat('${b.audio}','${b.title}','${b.description}')"
+            class="bg-redPrime px-4 py-2 rounded">
+            Play
+          </button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function playBeat(src,title,desc){
+  audio.src=src;
+  audio.play();
+  nowTitle.innerText=title;
+  nowDesc.innerText=desc;
+  player.classList.remove("hidden");
+}
 </script>
 
 </body>
