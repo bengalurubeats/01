@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Premium Beat Store</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        blackPure: "#0b0b0b",
+        redPrime: "#c4161c",
+        yellowPrime: "#f5c400",
+        whitePure: "#ffffff"
+      }
+    }
+  }
+}
+</script>
+
+<style>
+body {
+  background: #0b0b0b;
+}
+.collection-card {
+  background: linear-gradient(145deg, #111, #050505);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  transition: all 0.4s ease;
+}
+.collection-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 30px 60px rgba(196,22,28,0.4);
+}
+</style>
+</head>
+
+<body class="text-white font-sans">
+
+<!-- HEADER -->
+<header class="px-8 py-6 flex justify-between items-center">
+  <h1 class="text-2xl font-bold tracking-wide">
+    <span class="text-white">ABHI</span>
+    <span class="text-redPrime">BEATS</span>
+  </h1>
+</header>
+
+<!-- LANDING -->
+<section id="landing" class="min-h-screen flex flex-col justify-center px-8">
+  <h2 class="text-5xl md:text-6xl font-extrabold max-w-3xl leading-tight">
+    Premium <span class="text-redPrime">Beats</span><br/>
+    For Serious Artists
+  </h2>
+
+  <p class="text-gray-400 mt-6 max-w-xl">
+    Drill. Trap. Hip Hop. Experimental.<br/>
+    Hand-crafted instrumentals with a premium sound.
+  </p>
+
+  <!-- COLLECTION GRID -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-20 max-w-6xl">
+
+    <div onclick="openCollection('drill')" class="collection-card rounded-2xl p-10 cursor-pointer">
+      <h3 class="text-3xl font-bold text-redPrime">DRILL</h3>
+      <p class="text-gray-400 mt-3">Dark • Aggressive • Modern</p>
+    </div>
+
+    <div onclick="openCollection('trap')" class="collection-card rounded-2xl p-10 cursor-pointer">
+      <h3 class="text-3xl font-bold text-yellowPrime">TRAP</h3>
+      <p class="text-gray-400 mt-3">Hard • Melodic • Bangers</p>
+    </div>
+
+    <div onclick="openCollection('hiphop')" class="collection-card rounded-2xl p-10 cursor-pointer">
+      <h3 class="text-3xl font-bold">HIP HOP</h3>
+      <p class="text-gray-400 mt-3">Classic • Street • Raw</p>
+    </div>
+
+    <div onclick="openCollection('oldschool')" class="collection-card rounded-2xl p-10 cursor-pointer">
+      <h3 class="text-3xl font-bold text-yellowPrime">OLD SCHOOL</h3>
+      <p class="text-gray-400 mt-3">Boom Bap • Vinyl • Soul</p>
+    </div>
+
+    <div onclick="openCollection('experimental')" class="collection-card rounded-2xl p-10 cursor-pointer">
+      <h3 class="text-3xl font-bold text-redPrime">EXPERIMENTAL</h3>
+      <p class="text-gray-400 mt-3">Abstract • Unique • Art</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- COLLECTION PAGE -->
+<section id="collectionPage" class="hidden min-h-screen px-8 py-20">
+  <button onclick="goBack()" class="mb-10 text-gray-400 hover:text-white">
+    ← Back to collections
+  </button>
+
+  <h2 id="collectionTitle" class="text-5xl font-bold mb-16"></h2>
+
+  <!-- Beats will come in STEP 2 -->
+  <div class="text-gray-500 text-xl">
+    Beats for this collection will appear here.
+  </div>
+</section>
+
+<!-- SCRIPT -->
+<script>
+function openCollection(type) {
+  document.getElementById("landing").classList.add("hidden");
+  document.getElementById("collectionPage").classList.remove("hidden");
+
+  const titles = {
+    drill: "Drill Beats",
+    trap: "Trap Beats",
+    hiphop: "Hip Hop Beats",
+    oldschool: "Old School Beats",
+    experimental: "Experimental Beats"
+  };
+
+  document.getElementById("collectionTitle").innerText = titles[type];
+  window.location.hash = type;
+}
+
+function goBack() {
+  document.getElementById("collectionPage").classList.add("hidden");
+  document.getElementById("landing").classList.remove("hidden");
+  window.location.hash = "";
+}
+</script>
+
+</body>
+</html>
