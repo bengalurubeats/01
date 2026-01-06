@@ -42,10 +42,16 @@ body { background:#0b0b0b; }
 <body class="text-white">
 
 <!-- HEADER -->
-<header class="px-8 py-6">
+<header class="px-8 py-6 flex justify-between items-center">
   <h1 class="text-2xl font-bold">
     BENGALURU <span class="text-redPrime">BEATS</span>
   </h1>
+
+  <!-- WHATSAPP TOP RIGHT -->
+  <a href="https://wa.me/91XXXXXXXXXX" target="_blank"
+     class="bg-green-500 text-white px-4 py-2 rounded-full font-bold shadow-lg">
+    WhatsApp
+  </a>
 </header>
 
 <!-- LANDING -->
@@ -99,22 +105,6 @@ body { background:#0b0b0b; }
   </div>
 </div>
 
-<!-- WHATSAPP FLOAT -->
-<a href="https://wa.me/91XXXXXXXXXX" target="_blank"
-   class="fixed bottom-6 right-6 bg-green-500 text-white px-5 py-3 rounded-full font-bold shadow-lg">
-  WhatsApp
-</a>
-
-<!-- FAQ -->
-<section class="px-8 py-20 border-t border-gray-800">
-  <h3 class="text-3xl font-bold mb-8">FAQ</h3>
-  <div class="space-y-4 text-gray-400">
-    <p>• What do I receive after purchase?</p>
-    <p>• Can I use beats for YouTube & Spotify?</p>
-    <p>• Is this exclusive or non-exclusive?</p>
-  </div>
-</section>
-
 <script>
 /* ===== EDIT ONLY THIS TO ADD BEATS ===== */
 const beats = [
@@ -123,8 +113,7 @@ const beats = [
     collection: "drill",
     price: "₹499",
     description: "Drill type beat • 140 BPM",
-    audio: "beats/21.mp3",
-    image: "images/21.jpg"
+    audio: "beats/21.mp3"
   }
 ];
 /* ===================================== */
@@ -158,7 +147,6 @@ function renderBeats(){
   beats.filter(b=>b.collection===currentCollection).forEach(b=>{
     beatsGrid.innerHTML+=`
       <div class="beat-card p-6">
-        <img src="${b.image}" loading="lazy" class="rounded-xl mb-4">
         <h3 class="text-xl font-bold">${b.title}</h3>
         <p class="text-gray-400 text-sm mt-2">${b.description}</p>
 
