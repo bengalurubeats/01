@@ -6,13 +6,11 @@
 <title>ABHI BEATS</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
-
 <script>
 tailwind.config = {
   theme: {
     extend: {
       colors: {
-        blackPure: "#0b0b0b",
         redPrime: "#c4161c",
         yellowPrime: "#f5c400"
       }
@@ -24,41 +22,26 @@ tailwind.config = {
 <style>
 body { background:#0b0b0b; }
 .collection-card {
-  background: linear-gradient(145deg, #111, #050505);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-  transition: 0.4s;
-}
-.collection-card:hover {
-  transform: translateY(-6px) scale(1.03);
-  box-shadow: 0 30px 60px rgba(196,22,28,0.4);
-}
-.beat-card {
   background:#111;
-  border-radius:16px;
+  transition:.3s;
 }
+.collection-card:hover { transform:scale(1.05); }
+.beat-card { background:#111; border-radius:16px; }
 </style>
 </head>
 
 <body class="text-white">
 
 <header class="px-8 py-6">
-  <h1 class="text-2xl font-bold">
-    ABHI<span class="text-redPrime">BEATS</span>
-  </h1>
+  <h1 class="text-2xl font-bold">ABHI<span class="text-redPrime">BEATS</span></h1>
 </header>
 
 <!-- LANDING -->
 <section id="landing" class="px-8 min-h-screen flex flex-col justify-center">
-  <h2 class="text-6xl font-extrabold">
-    Premium <span class="text-redPrime">Beats</span>
-  </h2>
+  <h2 class="text-6xl font-extrabold">Premium <span class="text-redPrime">Beats</span></h2>
 
-  <p class="text-gray-400 mt-4 max-w-xl">
-    Drill • Trap • Hip Hop • Old School • Experimental
-  </p>
-
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-20 max-w-6xl">
-    <div onclick="openCollection('drill')" class="collection-card p-10 rounded-2xl cursor-pointer">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mt-20 max-w-4xl">
+    <div onclick="openCollection('drill')" class="collection-card p-10 rounded-xl cursor-pointer">
       <h3 class="text-3xl font-bold text-redPrime">DRILL</h3>
     </div>
   </div>
@@ -66,14 +49,14 @@ body { background:#0b0b0b; }
 
 <!-- COLLECTION -->
 <section id="collectionPage" class="hidden px-8 py-20">
-  <button onclick="goBack()" class="mb-10 text-gray-400 hover:text-white">← Back</button>
-  <h2 id="collectionTitle" class="text-5xl font-bold mb-16">Drill Beats</h2>
-  <div id="beatsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
+  <button onclick="goBack()" class="mb-10 text-gray-400">← Back</button>
+  <h2 class="text-4xl font-bold mb-10">Drill Beats</h2>
+  <div id="beatsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-10"></div>
 </section>
 
 <!-- PLAYER -->
 <div id="player" class="fixed bottom-0 left-0 right-0 bg-black border-t border-gray-800 hidden">
-  <div class="px-6 py-4 flex items-center justify-between">
+  <div class="px-6 py-4 flex justify-between items-center">
     <div>
       <div id="nowTitle" class="font-bold"></div>
       <div id="nowDesc" class="text-gray-400 text-sm"></div>
@@ -83,62 +66,56 @@ body { background:#0b0b0b; }
 </div>
 
 <script>
-/* ====== YOUR REAL BEAT ====== */
 const beats = [
   {
     title: "TRIPPY",
     collection: "drill",
     price: "₹499",
-    description: "100 BPM • Drill Type Beat",
+    description: "100 BPM • Drill Beat",
     audio: "beats/trippy.mp3",
     image: "images/trippy.png"
   }
 ];
-/* =========================== */
 
-function openCollection() {
-  document.getElementById("landing").classList.add("hidden");
-  document.getElementById("collectionPage").classList.remove("hidden");
+let currentCollection = "";
+
+function openCollection(type) {
+  currentCollection = type;
+  landing.classList.add("hidden");
+  collectionPage.classList.remove("hidden");
   renderBeats();
 }
 
 function goBack() {
-  document.getElementById("collectionPage").classList.add("hidden");
-  document.getElementById("landing").classList.remove("hidden");
-  document.getElementById("player").classList.add("hidden");
+  collectionPage.classList.add("hidden");
+  landing.classList.remove("hidden");
+  player.classList.add("hidden");
 }
 
 function renderBeats() {
-  const grid = document.getElementById("beatsGrid");
-  grid.innerHTML = "";
-
-  beats.forEach(b => {
-    grid.innerHTML += `
+  beatsGrid.innerHTML = "";
+  beats.filter(b => b.collection === currentCollection).forEach(b => {
+    beatsGrid.innerHTML += `
       <div class="beat-card p-6">
         <img src="${b.image}" class="rounded-xl mb-4">
         <h3 class="text-xl font-bold">${b.title}</h3>
-        <p class="text-gray-400 text-sm mt-2">${b.description}</p>
-
+        <p class="text-gray-400">${b.description}</p>
         <div class="mt-4 flex justify-between items-center">
           <span class="text-yellowPrime font-bold">${b.price}</span>
           <button onclick="playBeat('${b.audio}','${b.title}','${b.description}')"
-            class="bg-redPrime px-4 py-2 rounded">
-            Play
-          </button>
+            class="bg-redPrime px-4 py-2 rounded">Play</button>
         </div>
       </div>
     `;
   });
 }
 
-function playBeat(src, title, desc) {
-  const audio = document.getElementById("audio");
+function playBeat(src,title,desc) {
   audio.src = src;
   audio.play();
-
-  document.getElementById("nowTitle").innerText = title;
-  document.getElementById("nowDesc").innerText = desc;
-  document.getElementById("player").classList.remove("hidden");
+  nowTitle.innerText = title;
+  nowDesc.innerText = desc;
+  player.classList.remove("hidden");
 }
 </script>
 
