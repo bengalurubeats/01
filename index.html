@@ -58,27 +58,9 @@ body { background:#0b0b0b; }
   </p>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-20 max-w-6xl">
-
     <div onclick="openCollection('drill')" class="collection-card p-10 rounded-2xl cursor-pointer">
       <h3 class="text-3xl font-bold text-redPrime">DRILL</h3>
     </div>
-
-    <div onclick="openCollection('trap')" class="collection-card p-10 rounded-2xl cursor-pointer">
-      <h3 class="text-3xl font-bold text-yellowPrime">TRAP</h3>
-    </div>
-
-    <div onclick="openCollection('hiphop')" class="collection-card p-10 rounded-2xl cursor-pointer">
-      <h3 class="text-3xl font-bold">HIP HOP</h3>
-    </div>
-
-    <div onclick="openCollection('oldschool')" class="collection-card p-10 rounded-2xl cursor-pointer">
-      <h3 class="text-3xl font-bold text-yellowPrime">OLD SCHOOL</h3>
-    </div>
-
-    <div onclick="openCollection('experimental')" class="collection-card p-10 rounded-2xl cursor-pointer">
-      <h3 class="text-3xl font-bold text-redPrime">EXPERIMENTAL</h3>
-    </div>
-
   </div>
 </section>
 
@@ -101,18 +83,18 @@ body { background:#0b0b0b; }
 </div>
 
 <script>
-/* ========= EDIT ONLY THIS SECTION TO ADD BEATS ========= */
+/* ========= YOUR BEAT (EDIT ONLY HERE LATER) ========= */
 const beats = [
   {
-    title: "TRIPPY",
+    title: "A1 BEAT TEST",
     collection: "drill",
     price: "₹499",
     description: "100 BPM • Drill Type Beat",
     audio: "beats/trippy.mp3",
-    image: "images/trippy.jpg"
+    image: "beats/trippy.png"
   }
 ];
-/* ====================================================== */
+/* ================================================ */
 
 let currentCollection = "";
 
@@ -120,16 +102,7 @@ function openCollection(type) {
   currentCollection = type;
   document.getElementById("landing").classList.add("hidden");
   document.getElementById("collectionPage").classList.remove("hidden");
-
-  const titles = {
-    drill: "Drill Beats",
-    trap: "Trap Beats",
-    hiphop: "Hip Hop Beats",
-    oldschool: "Old School Beats",
-    experimental: "Experimental Beats"
-  };
-
-  document.getElementById("collectionTitle").innerText = titles[type];
+  document.getElementById("collectionTitle").innerText = "Drill Beats";
   renderBeats();
 }
 
@@ -143,41 +116,38 @@ function renderBeats() {
   const grid = document.getElementById("beatsGrid");
   grid.innerHTML = "";
 
-  beats
-    .filter(b => b.collection === currentCollection)
-    .forEach(b => {
-      grid.innerHTML += `
-        <div class="beat-card p-6">
-          <img src="${b.image}" class="rounded-xl mb-4">
-          <h3 class="text-xl font-bold">${b.title}</h3>
-          <p class="text-gray-400 text-sm mt-2">${b.description}</p>
+  beats.forEach(b => {
+    grid.innerHTML += `
+      <div class="beat-card p-6">
+        <img src="${b.image}" class="rounded-xl mb-4">
+        <h3 class="text-xl font-bold">${b.title}</h3>
+        <p class="text-gray-400 text-sm mt-2">${b.description}</p>
 
-          <div class="mt-4 flex justify-between items-center">
-            <span class="text-yellowPrime font-bold">${b.price}</span>
+        <div class="mt-4 flex justify-between items-center">
+          <span class="text-yellowPrime font-bold">${b.price}</span>
 
-            <div class="flex gap-2">
-              <button onclick="playBeat('${b.audio}','${b.title}','${b.description}')" 
-                class="bg-redPrime px-4 py-2 rounded">
-                Play
-              </button>
+          <div class="flex gap-2">
+            <button onclick="playBeat('${b.audio}','${b.title}','${b.description}')" 
+              class="bg-redPrime px-4 py-2 rounded">
+              Play
+            </button>
 
-              <a href="https://wa.me/?text=I%20want%20to%20buy%20the%20beat%20${b.title}" 
-                 target="_blank"
-                 class="bg-yellowPrime text-black px-4 py-2 rounded font-bold">
-                Buy
-              </a>
-            </div>
+            <a href="https://wa.me/?text=I%20want%20to%20buy%20the%20beat%20${b.title}" 
+               target="_blank"
+               class="bg-yellowPrime text-black px-4 py-2 rounded font-bold">
+              Buy
+            </a>
           </div>
         </div>
-      `;
-    });
+      </div>
+    `;
+  });
 }
 
 function playBeat(src, title, desc) {
   const audio = document.getElementById("audio");
   audio.src = src;
   audio.play();
-
   document.getElementById("nowTitle").innerText = title;
   document.getElementById("nowDesc").innerText = desc;
   document.getElementById("player").classList.remove("hidden");
