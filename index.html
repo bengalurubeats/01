@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>ABHI BEATS</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
@@ -21,42 +21,44 @@ tailwind.config = {
 
 <style>
 body { background:#0b0b0b; }
-.collection-card {
+.card {
   background:#111;
-  transition:.3s;
+  border-radius:16px;
 }
-.collection-card:hover { transform:scale(1.05); }
-.beat-card { background:#111; border-radius:16px; }
+.card:hover { transform:scale(1.03); transition:.3s; }
 </style>
 </head>
 
 <body class="text-white">
 
-<header class="px-8 py-6">
-  <h1 class="text-2xl font-bold">ABHI<span class="text-redPrime">BEATS</span></h1>
+<header class="p-6 text-2xl font-bold">
+  ABHI<span class="text-redPrime">BEATS</span>
 </header>
 
 <!-- LANDING -->
-<section id="landing" class="px-8 min-h-screen flex flex-col justify-center">
-  <h2 class="text-6xl font-extrabold">Premium <span class="text-redPrime">Beats</span></h2>
+<section id="landing" class="min-h-screen flex flex-col justify-center px-8">
+  <h1 class="text-6xl font-extrabold">
+    Premium <span class="text-redPrime">Beats</span>
+  </h1>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 mt-20 max-w-4xl">
-    <div onclick="openCollection('drill')" class="collection-card p-10 rounded-xl cursor-pointer">
-      <h3 class="text-3xl font-bold text-redPrime">DRILL</h3>
-    </div>
+  <div class="mt-20">
+    <button onclick="openCollection()"
+      class="card px-10 py-6 text-3xl font-bold text-redPrime">
+      DRILL
+    </button>
   </div>
 </section>
 
 <!-- COLLECTION -->
-<section id="collectionPage" class="hidden px-8 py-20">
+<section id="collection" class="hidden px-8 py-20">
   <button onclick="goBack()" class="mb-10 text-gray-400">← Back</button>
-  <h2 class="text-4xl font-bold mb-10">Drill Beats</h2>
+
   <div id="beatsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-10"></div>
 </section>
 
 <!-- PLAYER -->
 <div id="player" class="fixed bottom-0 left-0 right-0 bg-black border-t border-gray-800 hidden">
-  <div class="px-6 py-4 flex justify-between items-center">
+  <div class="p-4 flex justify-between items-center">
     <div>
       <div id="nowTitle" class="font-bold"></div>
       <div id="nowDesc" class="text-gray-400 text-sm"></div>
@@ -66,56 +68,67 @@ body { background:#0b0b0b; }
 </div>
 
 <script>
+/* ====== YOUR BEATS (ONLY EDIT THIS PART LATER) ====== */
 const beats = [
   {
     title: "TRIPPY",
-    collection: "drill",
     price: "₹499",
     description: "100 BPM • Drill Beat",
     audio: "beats/trippy.mp3",
     image: "images/trippy.png"
+  },
+  {
+    title: "21",
+    price: "₹799",
+    description: "Dark Drill Beat",
+    audio: "beats/21.mp3",
+    image: "images/21.png"
   }
 ];
+/* ================================================== */
 
-let currentCollection = "";
-
-function openCollection(type) {
-  currentCollection = type;
-  landing.classList.add("hidden");
-  collectionPage.classList.remove("hidden");
+function openCollection() {
+  document.getElementById("landing").classList.add("hidden");
+  document.getElementById("collection").classList.remove("hidden");
   renderBeats();
 }
 
 function goBack() {
-  collectionPage.classList.add("hidden");
-  landing.classList.remove("hidden");
-  player.classList.add("hidden");
+  document.getElementById("collection").classList.add("hidden");
+  document.getElementById("landing").classList.remove("hidden");
+  document.getElementById("player").classList.add("hidden");
 }
 
 function renderBeats() {
-  beatsGrid.innerHTML = "";
-  beats.filter(b => b.collection === currentCollection).forEach(b => {
-    beatsGrid.innerHTML += `
-      <div class="beat-card p-6">
+  const grid = document.getElementById("beatsGrid");
+  grid.innerHTML = "";
+
+  beats.forEach(b => {
+    grid.innerHTML += `
+      <div class="card p-6">
         <img src="${b.image}" class="rounded-xl mb-4">
         <h3 class="text-xl font-bold">${b.title}</h3>
         <p class="text-gray-400">${b.description}</p>
+
         <div class="mt-4 flex justify-between items-center">
           <span class="text-yellowPrime font-bold">${b.price}</span>
           <button onclick="playBeat('${b.audio}','${b.title}','${b.description}')"
-            class="bg-redPrime px-4 py-2 rounded">Play</button>
+            class="bg-redPrime px-4 py-2 rounded">
+            Play
+          </button>
         </div>
       </div>
     `;
   });
 }
 
-function playBeat(src,title,desc) {
+function playBeat(src, title, desc) {
+  const audio = document.getElementById("audio");
   audio.src = src;
   audio.play();
-  nowTitle.innerText = title;
-  nowDesc.innerText = desc;
-  player.classList.remove("hidden");
+  document.getElementById("nowTitle").innerText = title;
+  document.getElementById("nowDesc").innerText = desc;
+  document.getElementById("player").classList.remove("hidden");
 }
 </script>
 
