@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Premium Beat Store</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
@@ -14,8 +14,7 @@ tailwind.config = {
       colors: {
         blackPure: "#0b0b0b",
         redPrime: "#c4161c",
-        yellowPrime: "#f5c400",
-        whitePure: "#ffffff"
+        yellowPrime: "#f5c400"
       }
     }
   }
@@ -23,110 +22,149 @@ tailwind.config = {
 </script>
 
 <style>
-body {
-  background: #0b0b0b;
-}
+body { background:#0b0b0b; }
 .collection-card {
   background: linear-gradient(145deg, #111, #050505);
   box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-  transition: all 0.4s ease;
+  transition: 0.4s;
 }
 .collection-card:hover {
-  transform: translateY(-8px) scale(1.03);
+  transform: translateY(-6px) scale(1.03);
   box-shadow: 0 30px 60px rgba(196,22,28,0.4);
+}
+.beat-card {
+  background:#111;
+  border-radius:16px;
 }
 </style>
 </head>
 
-<body class="text-white font-sans">
+<body class="text-white">
 
-<!-- HEADER -->
-<header class="px-8 py-6 flex justify-between items-center">
-  <h1 class="text-2xl font-bold tracking-wide">
-    <span class="text-white">ABHI</span>
-    <span class="text-redPrime">BEATS</span>
+<header class="px-8 py-6">
+  <h1 class="text-2xl font-bold">
+    <span>ABHI</span><span class="text-redPrime">BEATS</span>
   </h1>
 </header>
 
 <!-- LANDING -->
-<section id="landing" class="min-h-screen flex flex-col justify-center px-8">
-  <h2 class="text-5xl md:text-6xl font-extrabold max-w-3xl leading-tight">
-    Premium <span class="text-redPrime">Beats</span><br/>
-    For Serious Artists
-  </h2>
-
-  <p class="text-gray-400 mt-6 max-w-xl">
-    Drill. Trap. Hip Hop. Experimental.<br/>
-    Hand-crafted instrumentals with a premium sound.
+<section id="landing" class="px-8 min-h-screen flex flex-col justify-center">
+  <h2 class="text-6xl font-extrabold">Premium <span class="text-redPrime">Beats</span></h2>
+  <p class="text-gray-400 mt-4 max-w-xl">
+    Drill • Trap • Hip Hop • Old School • Experimental
   </p>
 
-  <!-- COLLECTION GRID -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mt-20 max-w-6xl">
-
-    <div onclick="openCollection('drill')" class="collection-card rounded-2xl p-10 cursor-pointer">
+    <div onclick="openCollection('drill')" class="collection-card p-10 rounded-2xl cursor-pointer">
       <h3 class="text-3xl font-bold text-redPrime">DRILL</h3>
-      <p class="text-gray-400 mt-3">Dark • Aggressive • Modern</p>
     </div>
-
-    <div onclick="openCollection('trap')" class="collection-card rounded-2xl p-10 cursor-pointer">
+    <div onclick="openCollection('trap')" class="collection-card p-10 rounded-2xl cursor-pointer">
       <h3 class="text-3xl font-bold text-yellowPrime">TRAP</h3>
-      <p class="text-gray-400 mt-3">Hard • Melodic • Bangers</p>
     </div>
-
-    <div onclick="openCollection('hiphop')" class="collection-card rounded-2xl p-10 cursor-pointer">
+    <div onclick="openCollection('hiphop')" class="collection-card p-10 rounded-2xl cursor-pointer">
       <h3 class="text-3xl font-bold">HIP HOP</h3>
-      <p class="text-gray-400 mt-3">Classic • Street • Raw</p>
     </div>
-
-    <div onclick="openCollection('oldschool')" class="collection-card rounded-2xl p-10 cursor-pointer">
+    <div onclick="openCollection('oldschool')" class="collection-card p-10 rounded-2xl cursor-pointer">
       <h3 class="text-3xl font-bold text-yellowPrime">OLD SCHOOL</h3>
-      <p class="text-gray-400 mt-3">Boom Bap • Vinyl • Soul</p>
     </div>
-
-    <div onclick="openCollection('experimental')" class="collection-card rounded-2xl p-10 cursor-pointer">
+    <div onclick="openCollection('experimental')" class="collection-card p-10 rounded-2xl cursor-pointer">
       <h3 class="text-3xl font-bold text-redPrime">EXPERIMENTAL</h3>
-      <p class="text-gray-400 mt-3">Abstract • Unique • Art</p>
     </div>
-
   </div>
 </section>
 
 <!-- COLLECTION PAGE -->
-<section id="collectionPage" class="hidden min-h-screen px-8 py-20">
-  <button onclick="goBack()" class="mb-10 text-gray-400 hover:text-white">
-    ← Back to collections
-  </button>
-
+<section id="collectionPage" class="hidden px-8 py-20">
+  <button onclick="goBack()" class="mb-10 text-gray-400 hover:text-white">← Back</button>
   <h2 id="collectionTitle" class="text-5xl font-bold mb-16"></h2>
-
-  <!-- Beats will come in STEP 2 -->
-  <div class="text-gray-500 text-xl">
-    Beats for this collection will appear here.
-  </div>
+  <div id="beatsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
 </section>
 
-<!-- SCRIPT -->
+<!-- AUDIO PLAYER -->
+<div id="player" class="fixed bottom-0 left-0 right-0 bg-black border-t border-gray-800 hidden">
+  <div class="px-6 py-4 flex justify-between items-center">
+    <div>
+      <div id="nowTitle" class="font-bold"></div>
+      <div id="nowDesc" class="text-gray-400 text-sm"></div>
+    </div>
+    <audio id="audio" controls class="w-1/2"></audio>
+  </div>
+</div>
+
 <script>
-function openCollection(type) {
+// ================== BEATS DATA (ONLY EDIT THIS LATER) ==================
+const beats = [
+  {
+    title:"Midnight Drill",
+    collection:"drill",
+    price:"₹2,999",
+    description:"Dark aggressive drill beat",
+    audio:"beats/midnight-drill.mp3",
+    image:"images/midnight-drill.jpg"
+  },
+  {
+    title:"Trap Season",
+    collection:"trap",
+    price:"₹2,499",
+    description:"Hard modern trap beat",
+    audio:"beats/trap-season.mp3",
+    image:"images/trap-season.jpg"
+  }
+];
+// =====================================================================
+
+let currentCollection = "";
+
+function openCollection(type){
+  currentCollection = type;
   document.getElementById("landing").classList.add("hidden");
   document.getElementById("collectionPage").classList.remove("hidden");
 
-  const titles = {
-    drill: "Drill Beats",
-    trap: "Trap Beats",
-    hiphop: "Hip Hop Beats",
-    oldschool: "Old School Beats",
-    experimental: "Experimental Beats"
+  const titles={
+    drill:"Drill Beats",
+    trap:"Trap Beats",
+    hiphop:"Hip Hop Beats",
+    oldschool:"Old School Beats",
+    experimental:"Experimental Beats"
   };
-
-  document.getElementById("collectionTitle").innerText = titles[type];
-  window.location.hash = type;
+  document.getElementById("collectionTitle").innerText=titles[type];
+  renderBeats();
 }
 
-function goBack() {
+function goBack(){
   document.getElementById("collectionPage").classList.add("hidden");
   document.getElementById("landing").classList.remove("hidden");
-  window.location.hash = "";
+}
+
+function renderBeats(){
+  const grid=document.getElementById("beatsGrid");
+  grid.innerHTML="";
+  beats.filter(b=>b.collection===currentCollection).forEach(b=>{
+    grid.innerHTML+=`
+      <div class="beat-card p-6">
+        <img src="${b.image}" class="rounded-xl mb-4">
+        <h3 class="text-xl font-bold">${b.title}</h3>
+        <p class="text-gray-400 text-sm mt-2">${b.description}</p>
+        <div class="mt-4 flex justify-between items-center">
+          <span class="text-yellowPrime font-bold">${b.price}</span>
+          <div class="flex gap-2">
+            <button onclick="playBeat('${b.audio}','${b.title}','${b.description}')" class="bg-redPrime px-4 py-2 rounded">Play</button>
+            <a href="https://wa.me/?text=I want to buy the beat ${b.title}" target="_blank"
+               class="bg-yellowPrime text-black px-4 py-2 rounded font-bold">Buy</a>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function playBeat(src,title,desc){
+  const audio=document.getElementById("audio");
+  audio.src=src;
+  audio.play();
+  document.getElementById("nowTitle").innerText=title;
+  document.getElementById("nowDesc").innerText=desc;
+  document.getElementById("player").classList.remove("hidden");
 }
 </script>
 
